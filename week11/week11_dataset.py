@@ -3,19 +3,43 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 titanic = sns.load_dataset('titanic')
+
+# print(titanic.info())
+# titanic['age'].fillna(titanic['age'].mean(), inplace=True)
+# print(titanic.info())
+# print(titanic['age'])
+# age_survival = titanic.groupby(by='age')['survived'].mean().reset_index()
+# sns.barplot(data=age_survival, x='age', y='survived')
+# plt.title('Survival Rate by Age')
+# plt.xlabel('Age')
+# plt.ylabel('Survival Rate')
+# plt.show()
+
+titanic_drop_row = titanic.dropna(subset=['age'])
+print(titanic_drop_row.info())
+titanic_drop_row['survived'] = titanic_drop_row['survived'].astype(float)
+print(titanic_drop_row['survived'])
+
+plt.figure(figsize=(10, 5))
+sns.histplot(data=titanic_drop_row, x='age', weights='survived', bins=8, kde=False)
+plt.title('Survival Rate by Age (Drop NaN rows)')
+plt.xlabel('Age')
+plt.ylabel('Survival Rate (weights)')
+plt.show()
+
 # print(titanic['sex'].head())
 
 # gender_survival = titanic.groupby(by='sex')['survived'].mean()
 # print(type(gender_survival))
-gender_survival = titanic.groupby(by='sex')['survived'].mean().reset_index()
-print(gender_survival)
-print(gender_survival.info())
-
-sns.barplot(data=gender_survival, x='sex', y='survived')
-plt.title('Survival Rate by Gender')
-plt.xlabel('Sex')
-plt.ylabel('Survival Rate')
-plt.show()
+# gender_survival = titanic.groupby(by='sex')['survived'].mean().reset_index()
+# print(gender_survival)
+# print(gender_survival.info())
+#
+# sns.barplot(data=gender_survival, x='sex', y='survived')
+# plt.title('Survival Rate by Gender')
+# plt.xlabel('Sex')
+# plt.ylabel('Survival Rate')
+# plt.show()
 
 
 
