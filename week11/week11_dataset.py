@@ -1,3 +1,5 @@
+from pydoc import describe
+
 import seaborn as sns
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -15,17 +17,31 @@ titanic = sns.load_dataset('titanic')
 # plt.ylabel('Survival Rate')
 # plt.show()
 
-titanic_drop_row = titanic.dropna(subset=['age'])
-print(titanic_drop_row.info())
-titanic_drop_row['survived'] = titanic_drop_row['survived'].astype(float)
-print(titanic_drop_row['survived'])
-
-plt.figure(figsize=(10, 5))
-sns.histplot(data=titanic_drop_row, x='age', weights='survived', bins=8, kde=False)
-plt.title('Survival Rate by Age (Drop NaN rows)')
+median_age = titanic['age'].median()
+# mean_age = titanic['age'].mean()
+# print(median_age, mean_age)
+titanic_fill_row = titanic.fillna({'age' : median_age})
+print(titanic_fill_row)
+titanic_fill_row['survived'] = titanic_fill_row['survived'].astype(float)
+print(titanic_fill_row['age'])
+sns.histplot(data=titanic_fill_row, x='age', weights='survived', bins=8, kde=False)
+plt.title('Survival Rate by Age (Fill with Median)')
 plt.xlabel('Age')
 plt.ylabel('Survival Rate (weights)')
 plt.show()
+
+
+# titanic_drop_row = titanic.dropna(subset=['age'])
+# print(titanic_drop_row.info())
+# titanic_drop_row['survived'] = titanic_drop_row['survived'].astype(float)
+# print(titanic_drop_row['survived'])
+#
+# plt.figure(figsize=(10, 5))
+# sns.histplot(data=titanic_drop_row, x='age', weights='survived', bins=8, kde=False)
+# plt.title('Survival Rate by Age (Drop NaN rows)')
+# plt.xlabel('Age')
+# plt.ylabel('Survival Rate (weights)')
+# plt.show()
 
 # print(titanic['sex'].head())
 
